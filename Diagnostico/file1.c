@@ -16,6 +16,7 @@ struct datos {
 //Prototipos
 void start (struct datos** head, char name[],char app[], char apm[], int mat);
 void end (struct datos** head, char name[],char app[], char apm[], int mat);
+void print(struct datos* head);
 //Main
 int main()
 {
