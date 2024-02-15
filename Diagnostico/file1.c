@@ -123,36 +123,19 @@ void specific_position (struct datos** head, char name[],char app[], char apm[],
     strcpy(newnodo->apm,apm);
     newnodo->mat=mat;
     
-    int i=0,j=0;
+    int i=0;
+    struct datos *temp = head;
 
-    if(*head==NULL)
+    if(position>1)
     {
-        *head=newnodo;
-        i=1;
+        while(i<position)
+        {
+            
+        }
     }
     else
     {
-        struct datos *cont = *head;
-        while(cont->next!=NULL)
-        {
-            cont=cont->next;
-            i++;
-        }
-    }
-    printf("valor de i %d\n",i);
-    if(position>i)
-    {
-        printf("No es posible esa posicion fuera de rango\n");
-    }
-    else
-    {
-        struct datos *last = *head;
-        while(j<=i)
-        {
-            last=last->next;
-            j++;
-        }
-        newnodo=last;
+        start(&head,name,app,apm,mat);
     }
 
 }
