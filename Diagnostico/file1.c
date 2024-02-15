@@ -37,14 +37,21 @@ int main()
         mat=valid("Fuera de rango",300000,399999);
 
         printf("Al inicio o al final del nodo\n1.-Inicio\t2.-Final\n");
-        op=valid("fuera de rango",1,2);
+        op=valid("fuera de rango",1,3);
         if(op==1)
         {
             start(&list,name,app,apm,mat);
         }
-        else
+        if(op==2)
         {
             end(&list,name,app,apm,mat);
+        }
+        if(op==3)
+        {
+            int position;
+            printf("En que posicion\n");
+            position=valid("fuera de rango",1,100);
+            specific_position(&list,name,app,apm,mat,position);
         }
 
         print(list);
@@ -108,6 +115,48 @@ void end (struct datos** head, char name[],char app[], char apm[], int mat)
 
 }
 
+void specific_position (struct datos** head, char name[],char app[], char apm[], int mat, int position)
+{
+    struct datos *newnodo = (struct datos *) malloc(sizeof(struct datos));
+    strcpy(newnodo->name,name);
+    strcpy(newnodo->app,app); 
+    strcpy(newnodo->apm,apm);
+    newnodo->mat=mat;
+    
+    int i=0,j=0;
+
+    if(*head==NULL)
+    {
+        *head=newnodo;
+        i=1;
+    }
+    else
+    {
+        struct datos *cont = *head;
+        while(cont->next!=NULL)
+        {
+            cont=cont->next;
+            i++;
+        }
+    }
+    printf("valor de i %d\n",i);
+    if(position>i)
+    {
+        printf("No es posible esa posicion fuera de rango\n");
+    }
+    else
+    {
+        struct datos *last = *head;
+        while(j<=i)
+        {
+            last=last->next;
+            j++;
+        }
+        newnodo=last;
+    }
+
+}
+
 void print(struct datos* head)
 {
     struct datos *temp = head;
@@ -117,3 +166,4 @@ void print(struct datos* head)
         temp=temp->next;
     }
 }
+
