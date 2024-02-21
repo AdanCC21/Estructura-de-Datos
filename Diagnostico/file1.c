@@ -124,14 +124,17 @@ void specific_position (struct datos** head, char name[],char app[], char apm[],
     newnodo->mat=mat;
     
     int i=0;
-    struct datos *temp = *head;
+    struct datos *last = *head;
 
     if(position>1)
     {
-        while(temp)
+        while(i<=position)
         {
-            ;
+            last=last->next;
+            i++;
         }
+        last->next=newnodo;
+        newnodo->previous=last;
     }
     else
     {
