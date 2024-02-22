@@ -18,7 +18,7 @@ typedef struct datos{
 int main()
 {
     struct datos *list = NULL;
-    int op = 0,ind=0;
+    int op = 0,ind=0,pos=0;
     char name[20],
         app[20];
     
@@ -50,7 +50,16 @@ int main()
 
             break;
             case 3:
+            printf("Ingrese su nombre\n");
+                gets(name);
 
+                printf(" Ingrese su apellido\n");
+                gets(app);
+                ind++;
+
+                printf("que posicion\n");
+                pos=valid("Fuera de rango",0,ind);
+                specific_position(&list,name,app,ind,pos);
             break;
             case 4:
                 print(list);
@@ -103,9 +112,31 @@ void c_end(struct datos** nodo, char name[],char app[],int ind)
 
 }
 
-void specific_position()
+void specific_position(struct datos **nodo, char name[], char app[],int ind,int posicion)
 {
-    
+    datos* newnodo = (struct datos*)malloc(sizeof(datos));
+    strcpy(newnodo->name,name);
+    strcpy(newnodo->app,app);
+    newnodo->id=ind;
+    int i=0;
+
+    if(*nodo==NULL)
+    {
+        *nodo = newnodo;
+    }
+    else
+    {
+        datos *temp=*nodo;
+        while(i<posicion)
+        {
+            temp=temp->siguiete;
+            i++;
+        }
+        *temp->siguiete=*newnodo;
+        
+        
+    }
+
 }
 
 void print(struct datos* head)
