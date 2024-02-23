@@ -90,9 +90,7 @@ int main()
                 system("PAUSE");
                 break;
             case 5:
-                printf("Que posicion desea eliminar\n");
-                sp=valid("FUERA DE RANGO",1,in);
-                del(&Lista,sp);
+                del(&Lista,in);
                 in--;
                 system("PAUSE");
                 break;
@@ -120,7 +118,7 @@ int main()
 void menu ()
 {
     printf("Que desea hacer\n");
-    printf("1.-Inicio\t2.-Verificar vacio\t3.-Cantidad\t4.-Imprimir\t5.-Eliminar\t6.-Imprimir Ultimo\t0.-salir\n");
+    printf("1.-Inicio\t2.-Verificar vacio\t3.-Cantidad\t4.-Imprimir\t5.-Eliminar Ultimo\t6.-Imprimir Ultimo\t0.-salir\n");
 }
 
 struct Nodo* crearNodo(char name[], int ind)
