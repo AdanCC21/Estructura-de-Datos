@@ -10,10 +10,16 @@ typedef struct Datos {
 }Pilas;
 
 //Prototipos
-void create ();
-void push();
-void pull();
-void validacion();
+void crear ();
+//Agregar x cantidad
+void agregar ();
+void eliminar ();
+void pri();
+int tamanio();
+//ver si esta vacio o no
+int vacio ();
+//Imprimir ultimo?
+void pri_ultimo();
 
 //Main
 int main()
@@ -21,8 +27,5 @@ int main()
 
 }
 
-void create ()
-{
 
-}
 
