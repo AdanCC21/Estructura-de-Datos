@@ -22,7 +22,7 @@ struct Cola{
 void menu();
 struct Cola* create(int dato, int p);
 void insertar(struct Cola **head,struct Cola **last,int dato, int p);
-void sacar ();
+void sacar (struct Cola **head,struct Cola **last);
 
 int main()
 {
