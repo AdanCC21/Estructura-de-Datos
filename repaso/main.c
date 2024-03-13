@@ -1,217 +1,141 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-
 #include "libad.h"
 
 #define TRUE 1
 #define FALSE 0
 
-struct Datos
-{
-    char name[20];
-    int mat;
-    struct Datos *next,*previous;
+struct Pila{
+    int dato;
+    struct Pila *next;
 };
-
-
-//Prototipos
-void menu ();
-struct Datos *CrearNodo (char name[],int mat);
-void del (struct Datos *head);
-void eliminar (struct Datos **head,int p);
-
-void start (struct Datos **head,char name[],int mat);
-void top (struct Datos **head,char name[],int mat);
-void specific (struct Datos **head,char name[],int mat,int p);
-
-void pri(struct Datos *head);
+struct Pila *crear(int dato);
+void push (struct Pila**head,int dato);
+void pop (struct Pila **head);
+void peek (struct Pila **head);
+int isEmpty (struct Pila **head);
 
 int main()
 {
-    struct Datos *list = NULL;
-    int v,
-        p,
-        mat;
-    char name[20];
+    struct Pila *stack=NULL;
+    int op,dato,vacio;
     do
     {
-        system("CLS");
-        menu();
-        v=valid("FUERA DE RANGO",0,5);
-        switch(v)
+        printf("1.-Push,2.-Pop,3.-Top/Peek,4.-IsEmpty,5.-Size\n");
+        op=valid("",0,5);
+        switch(op)
         {
             case 1:
-                system("CLS");
-                printf("INICIO\n");
-                
-                printf("NOMBRE\n");
-                gets(name);
-                
-                system("CLS");
-                printf("MATRICULA\n");
-                mat=valid("FUERA DE RANGO",300000,399999);
-
-                start(&list,name,mat);
-                break;
+                printf("ingrese un dato\n");
+                dato=valid("",0,1000);
+                push(&stack,dato);
+            break;
             case 2:
-                system("CLS");
-                printf("FINAL\n");
-                
-                printf("NOMBRE\n");
-                gets(name);
-                
-                system("CLS");
-                printf("MATRICULA\n");
-                mat=valid("FUERA DE RANGO",300000,399999);
-                
-                top(&list,name,mat);
-                break;
+                pop(&stack);
+            break;
             case 3:
-                system("CLS");
-                printf("Posicion especifica\n");
-                
-                printf("NOMBRE\n");
-                gets(name);
-                
-                system("CLS");
-                printf("MATRICULA\n");
-                mat=valid("FUERA DE RANGO",300000,399999);
-
-                system("CLS");
-                printf("En que posicion\n");
-                p=valid("FUERA DE RANGO",0,399999);
-
-                specific(&list,name,mat,p);
-
-                break;
+                peek(&stack);
+            break;
             case 4:
-                system("CLS");
-                printf("En que posicion\n");
-                p=valid("FUERA DE RANGO",0,399999);
+                vacio=isEmpty(&stack);
+                if(vacio==1)
+                {
+                    printf("Esta vacio\n");
 
-                eliminar(&list,p);
-
-                break;
-            case 5:
-                pri(list);
-                system("PAUSE");
-                break;
-            case 0:
-                printf("Seguro que quieres salir?\n1.-Salir\t2.-Continuar\n");
-                v=valid("FUERA DE RANGO",1,2);
-                v--;
+                }
+                else
+                {
+                    printf("esta lleno\n");
+                }
+            break;
         }
-    } while (v!=FALSE);
-    return 0;
+    } while (op!=0);
 }
 
-void menu ()
+struct Pila *crear(int dato)
 {
-    printf("MENU\n");
-    printf("1.-Inicio\t2.-Final\t3.-Posicion\t4.-Eliminar\t5.-Imprimir\n");
-}
-
-struct Datos *CrearNodo (char name[],int mat)
-{
-    struct Datos *nodo = (struct Datos*)malloc(sizeof(struct Datos));
-    strcpy(nodo->name,name);
-    nodo->mat=mat;
-    
-    nodo->next=NULL;
-    nodo->previous=NULL;
-
+    struct Pila *nodo = (struct Pila*)malloc(sizeof(struct Pila));
+    nodo->dato=dato;
+    nodo->next = NULL;
     return nodo;
 }
 
-void eliminar (struct Datos **head,int p)
+void push (struct Pila**head,int dato)
 {
-    struct Datos *temp=*head;
-    int i=1;
-    if(p==1)
-    {
-        *head=temp->next;
-        del(temp);
-    }
-    else
-    {
-        while(i<p-1 && temp!=NULL)
-        {
-            temp=temp->next;
-            i++;
-        }
-        struct Datos *temp2=temp->next;
-        temp->next=temp->next->next;
-        del(temp2);
-
-    }
-}
-
-void del (struct Datos *head)
-{
-    free(head);
-}
-
-void start (struct Datos **head,char name[],int mat)
-{
-    struct Datos *nodo = CrearNodo(name,mat);
+    struct Pila *nodo=crear(dato);
     if(*head==NULL)
     {
         *head=nodo;
     }
     else
     {
-        nodo->next=*head;
-        *head=nodo;
-    }
-}
-
-void top (struct Datos **head,char name[],int mat)
-{
-    struct Datos *nodo = CrearNodo(name,mat);
-    if(*head==NULL)
-    {
-        *head=nodo;
-    }
-    else
-    {
-        struct Datos *temp=*head;
+        struct Pila *temp=*head;
         while(temp->next!=NULL)
         {
             temp=temp->next;
         }
         temp->next=nodo;
-        nodo->previous=temp;
     }
 }
 
-void specific (struct Datos **head,char name[],int mat,int p)
+void pop (struct Pila **head)
 {
-    struct Datos *nodo = CrearNodo(name,mat);
     if(*head==NULL)
     {
-        *head=nodo;
+        printf("Vacia\n");
     }
     else
     {
-        struct Datos *temp=*head;
-        int i=1;
-        while(i<p-1 && temp->next!=NULL)
+        struct Pila *temp=*head, *prev=NULL;
+        
+        while(temp->next!=NULL)
         {
+            prev=temp;
             temp=temp->next;
-            i++;
         }
-        nodo->next=temp->next;
-        temp->next=nodo;
+        
+        if(prev==NULL)
+        {
+            printf("Dato : %d\n",temp->dato);
+            free(temp);
+            *head=NULL;
+        }
+        else
+        {
+            printf("Dato : %d\n",temp->dato);
+            prev->next=NULL;
+            free(temp);
+        }
+        
     }
 }
 
-void pri(struct Datos *head)
+void peek (struct Pila **head)
 {
-    struct Datos *temp=head;
-    while(temp!=NULL)
+    if(*head==NULL)
     {
-        printf("%s | %d\n",temp->name,temp->mat);
-        temp=temp->next;
+        printf("Vacia\n");
+    }
+    else
+    {
+        struct Pila *temp=*head;
+        while(temp->next!=NULL)
+        {
+            temp=temp->next;
+        }
+        printf("Dato : %d\n",temp->dato);
     }
 }
+
+int isEmpty (struct Pila **head)
+{
+    if(*head==NULL)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
